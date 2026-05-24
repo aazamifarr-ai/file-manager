@@ -2554,13 +2554,14 @@ class imageLib
 	{
 
 		// *** Perform a check or two.
-		if (!$this->imageResized instanceof \GdImage) {
-			if ($this->debug) {
-				throw new Exception('saveImage: This is not a resource.');
+		if (! is_resource($this->imageResized) && !($this->imageResized instanceof \GdImage)) {
+			if (! is_resource($this->image) && !($this->image instanceof \GdImage)) {
+				throw new Exception('Error saveImage: This is not a resource.');
 			} else {
-				throw new Exception();
+				$this->imageResized = $this->image;
 			}
 		}
+
 		$fileInfoArray = pathInfo($savePath);
 		clearstatcache();
 		if (! is_writable($fileInfoArray['dirname'])) {
@@ -2646,11 +2647,12 @@ class imageLib
 	#
 	{
 
+		// *** Perform a check or two.
 		if (! is_resource($this->imageResized) && !($this->imageResized instanceof \GdImage)) {
-			if ($this->debug) {
-				throw new Exception('saveImage: This is not a resource.');
+			if (! is_resource($this->image) && !($this->image instanceof \GdImage)) {
+				throw new Exception('Error displayImage: This is not a resource.');
 			} else {
-				throw new Exception();
+				$this->imageResized = $this->image;
 			}
 		}
 
